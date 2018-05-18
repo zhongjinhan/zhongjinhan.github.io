@@ -4,7 +4,7 @@ email:       bylm86@gmail.com
 author:      Zhong Jinhan
 description: "没人看也要写"
 baseurl:     ""
-url:         "zhongjinhan.github.io"
+url:         ""
 date_format: "%b %-d, %Y"
 header_pages:
  - about.md
