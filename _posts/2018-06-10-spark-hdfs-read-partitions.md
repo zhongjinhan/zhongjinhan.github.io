@@ -12,7 +12,7 @@ published:  true
 Spark从HDFS读取文件生成的RDD含有几个partition呢？这是个经常在面试中会被问的问题，当然有时候你也会在应该开发过程当中提出类似的疑惑。那么到底会生成几个partition呢，这里要按使用的API分两种情况说明，分别是SparkContext的读取API和SparkSession的DataFramReader读取API，而这两种API分别代表2.0之前和2.0之后的常用API。
 
 
-## SparkContext里面的HDFS读取API
+### SparkContext里面的HDFS读取API
 SparkContext里面跟HDFS数据读取相关的API在生成partition方面相对是比较简单，这里的简单指spark本身没做任何处理，而完全依赖于Hadoop Mapreduce的API，具体是使用InputFormat里面的getSplits方法获取InputSplits生成Partitions，有几个InputSplits最后就有几个partitions。关于InputFormat#getSplits的实现,这个跟具体的文件格式有关，比如文本格式，具体实现在FileInputFormat#getSplits里面。
 
 SparkContext里面的API可以进一步细分为新的和旧的API，相关的底层RDD分别是HadoopRDD和NewHadoopRDD，这里新的旧的分别对应于MapReduce里面的新旧API,关于旧的和新的API的区别可以参考 [Difference  between Hadoop OLD API and NEW API](http://hadoopbeforestarting.blogspot.com/2012/12/difference-between-hadoop-old-api-and.html)。下面分别就HadoopRDD和NewHadoopRDD进行简单说明。
@@ -62,7 +62,7 @@ inputSplit = max(minsize, min(maxsize, blocksize))
 
 
 
-## 2.0之后SparkSession里面的HDFS读取API
+### 2.0之后SparkSession里面的HDFS读取API
 
 Spa2.0使用SparkSession#rea下面的API去读HDFS生成的partition个数所采用的方式则发生了比较大的变化，spark抛弃了原来的getSplits方法来生成partitions，自己采用多个参数来控制生成partitions。主要的逻辑在FileSourceScanExec里面大致可以分为下面几步：
 
@@ -84,14 +84,14 @@ Spa2.0使用SparkSession#rea下面的API去读HDFS生成的partition个数所采
 -如果有大量小文件spark.read会有很多合并的操作，这要归功于流程里最后装桶那一步所以整体产生的partition数量会比MapReduce API里面的少很多。
 -如果想减少partition的数量则可以提高maxParitionBytes这个参数，这个参数可在运行时动态设置的
     ```scala
-    spark.sql("set spark.sql.files.maxPartitionBytes =  536870912")
+    spark.sql("set spark.sql.files.maxPartitionBytes = 536870912")
     ```
 
 
 
 
 
-## 数据的分布与RDD Partition个数的关系
+### 数据的分布与RDD Partition个数的关系
 数据从HDF读出变成RDD之后，它的Partition个数和数据的均匀分布这个并不是一定的关系还是决定于文件格式比如一个500M的文件夹里面的数据按10Partition读取，那么每个Partition数据一定是50M左右吗？如果是文本文件，那么可能差不多是这样，但如果是parquet格式的文件，则另当别论了，比如这文件夹里面只有5parquet文件，那么这10个partition里面只有5是有数据的，另外5个是空的。
 
 
