@@ -1,7 +1,7 @@
 ---
 layout:     post
 title:      编写一个 Hadoop YARN 应用
-date:       2019-03-24
+date:       2019-04-15
 summary:    详细介绍了如何编写一个在Hadoop YARN上面运行的分布式应用
 categories: hadoop 
 published:  true
@@ -161,11 +161,8 @@ public class NMCallbackHandler implements NMClientAsync.CallbackHandler{
     public void onContainerStarted(ContainerId containerId, Map<String, ByteBuffer> allServiceResponse) {}
     public void onContainerStopped(ContainerId containerId) {}
     public void onContainerStatusReceived(ContainerId containerId, ContainerStatus containerStatus) {}
-
     public void onStartContainerError(ContainerId containerId, Throwable t) {}
-
     public void onStopContainerError(ContainerId containerId, Throwable t) {}
-
     public void onGetContainerStatusError(ContainerId containerId, Throwable t) {}
 }
 
@@ -188,5 +185,4 @@ Application Slave容器里面运行的内容则全部由应用自己来决定
 
 
 而分布式应用本身的通信方式和运行内容都需要应用开发者自己去编写。
-
 
