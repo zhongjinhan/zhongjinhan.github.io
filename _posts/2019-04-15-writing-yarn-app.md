@@ -16,7 +16,7 @@ Apache YARN 是一个集群资源管理框架，举最简单的例子讲，你�
 ## 一个YARN作业的生命周期
 一个YARN作业(或者叫应用)的生命周期包含:应用的提交、应用运行(计算)和应用运行结束，应用运行和结束方式主要交给YARN应用自己去控制和处理，单应用的提交流程这个基本是固定的，如下图所示：
 
-![](image/yarn-submit-app.png)
+![]({{ "/images/yarn-submit-app.png" | absolute_url }})
 
 提交流程可以分为4个步骤：
 1. 客户端提交应用到Resource Manager
