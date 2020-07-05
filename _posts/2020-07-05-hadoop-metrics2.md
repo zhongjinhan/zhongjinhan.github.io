@@ -1,7 +1,7 @@
 ---
 layout:     post
 title:      Hadoop Metrics V2 框架
-date:       2020-06-21
+date:       2020-07-05
 summary:    Hadoop Metrics V2 框架简介
 categories: hadoop
 published:  true
